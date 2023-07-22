@@ -3,6 +3,8 @@ import { useState } from 'react';
 // import axios from 'axios';z
 import { Link } from 'react-router-dom';
 import {SearchShows,SearchActors} from '../api/tvmaze.js';
+import ActorsGrid from '../components/ActorsGrid/ActorsGrid';
+import ShowGrid from '../components/ShowsGrid/ShowGrid';
 
 function Home() {
   const [searchTerm, setSearchTerm] = useState([]);
@@ -41,33 +43,17 @@ function Home() {
     // "image": {
   const displya = () => {
     let data;
-    data = apiData.map((item) => {
-    console.log("searchOption is:"+searchOption);
 
     try{
-    if(searchOption === "shows"){
-      return (
-          <div key={item.show.id}>
-            <h1>{item.show.name}</h1>
-            <img src={item.show.image.medium} alt="" />
-            <div dangerouslySetInnerHTML={{ __html: item.show.summary }}></div>
-          </div> 
-          )
+      if(searchOption === "shows"){
+        data=ShowGrid(apiData)
       }else{
-        return (
-          <div key={item.person.id}>
-            <h3>{item.person.name}</h3>
-            <div>from: {item.person.birthday}</div>
-            <div>to: {item.person.deathday}</div>
-            <div>gender: {item.person.gender}</div>
-          </div> 
-        );
+        data=ActorsGrid(apiData)
       }
     }catch(err){
       console.log(err);
       return false
     }
-  })
   return data;
 }
 
